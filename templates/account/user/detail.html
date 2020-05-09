@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}{{ user.get_full_name }}{% endblock %}
+
+{% block content %}
+    <!-- accordions -->
+    <div class="accordions">
+      <div class="row">
+        <!-- accordion style 1 -->
+
+          <div class="col-lg-3 mb-4">
+              <div class="card card_border">
+                  <div class="card-header chart-grid__header">
+                      Profile
+                  </div>
+                  <div class="card-body">
+                      <div class="accordion" id="accordionExample">
+                          {% include 'account/user/list_user.html' %}
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-lg-6 mb-4">
+              <div class="card card_border">
+                  <div class="card-header chart-grid__header">
+                      Publications
+                  </div>
+              </div>
+              {% if posts %}
+          <div style="overflow: hidden;">
+              {% for post in posts %}
+                    {% include 'posts/post/list_post.html' %}
+              {% endfor %}
+          </div>
+           {% else %}
+          {% include 'empty.html' %}
+          {% endif %}
+          </div>
+
+          <div class="col-lg-3 mb-4">
+{#          <div class="card card_border">#}
+{#            <div class="card-header chart-grid__header">#}
+{#              Market#}
+{#            </div>#}
+{#            <div class="card-body">#}
+{#              <div class="accordion" id="accordionExample">#}
+{#                  <form method="get">#}
+{#                     <div class="form-control input-style">mm</div>#}
+{#                      <button type="submit" class="btn btn-primary btn-style mt-4">Filters</button>#}
+{#                  </form>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
+

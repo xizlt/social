@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Following{% endblock %}
+
+{% block content %}
+    <section class="w3l-team-block">
+        <div class="card card_border mb-5">
+            <div class="cards__heading">
+                <h3>Following</h3>
+            </div>
+            {% if users %}
+                <div class="card-body">
+                    <div class="teams mb-4">
+                        <div class="row px-2">
+                            {% for user in users %}
+                                <div class="col-lg-3 col-md-6 mb-lg-0 mb-4 px-2">
+                                    {% include 'account/user/list_user.html' %}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                {% include 'empty.html' %}
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% load thumbnail %}
+
+<div class="col mb-4">
+    <div class="card h-100 border-white">
+        <a href="{% if user == request.user %}{% url 'dashboard' %}{% else %}
+                                                    {{ user.get_absolute_url }}{% endif %}">
+            <img src="{% thumbnail user.profile.photo '250x250' crop='100%' %}"
+                 class="card-img-top" alt="{{ user.get_full_name }}">
+        </a>
+        <div class="card-body">
+            <h5 class="card-title"><a href="{{ user.get_absolute_url }}">{{ user.username }}</a></h5>
+            <p class="card-text">
+                {% if user.get_full_name %}{{ user.get_full_name }}{% else %}not specified{% endif %}</p>
+            <div class="social">
+                {% if user.id != request.user.id %}
+                    <a href="#" data-id="{{ user.id }}" class="follow-button" data-url="{% url 'user_follow' %}"
+                       data-action="{% if request.user in user.followers.all %}un{% endif %}follow">
+
+                        {% if request.user not in user.followers.all %}Follow{% else %}
+                            Unfollow{% endif %}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+

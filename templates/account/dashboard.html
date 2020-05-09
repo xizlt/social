@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    {% load thumbnail %}
+    <!-- statistics data -->
+    <div class="statistics">
+        <div class="row">
+            <div class="col-xl-6 pr-xl-2">
+                <div class="row">
+                    <div class="col-sm-6 pr-sm-2 statistics-grid">
+                        <div class="card card_border border-primary-top p-2" style="height: 79px">
+                            <p class="text-xl-center h3"><b>Hi {{ request.user.first_name|wordwrap:15 }}!</b></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 pl-sm-2 statistics-grid">
+                        <div class="card card_border border-primary-top p-2">
+                            <i class="lnr lnr-eye"> </i>
+                            <h3 class="text-secondary number">{{ posts_list.count }}</h3>
+                            <p class="stat-text">Posts</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 pl-xl-2">
+                <div class="row">
+                    <div class="col-sm-6 pr-sm-2 statistics-grid">
+                        <div class="card card_border border-primary-top p-2">
+                            <i class="lnr lnr-users"> </i>
+                            <h3 class="text-success number">{{ user.followers.count }}</h3>
+                            <p class="stat-text">Followers</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 pl-sm-2 statistics-grid">
+                        <div class="card card_border border-primary-top p-2">
+                            <i class="lnr lnr-users"> </i>
+                            <h3 class="text-danger number">{{ user.following.count }}</h3>
+                            <p class="stat-text">Following</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //statistics data -->
+
+    <!-- accordions -->
+    <div class="accordions">
+        <div class="row">
+            <!-- accordion style 1 -->
+
+            <div class="col-lg-3 mb-4">
+                <div class="card card_border">
+                    <div class="card-header chart-grid__header">
+                        Profile
+                    </div>
+                    <div class="card-body">
+                        <div class="accordion" id="accordionExample">
+                            {% include 'account/user/list_user.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-4">
+                <div class="card card_border">
+                    <div class="card-header chart-grid__header">
+                        Publication
+                    </div>
+                </div>
+                {% if posts %}
+                    <div style="overflow: hidden;">
+                        {% for post in posts %}
+                            {% include 'posts/post/list_post.html' %}
+                        {% endfor %}
+                    </div>
+                    {% include "pagination.html" with page_obj=posts %}
+                {% else %}
+                    {% include 'empty.html' %}
+                {% endif %}
+            </div>
+
+            <div class="col-lg-3 mb-4">
+                <div class="card card_border">
+                    <div class="card-header chart-grid__header">
+                        Add post
+                    </div>
+                    <div class="card-body">
+                        <div class="accordion" id="accordionExample">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <label for="{{ form_post.title.id_for_label }}"
+                                       class="input__label">{{ form_post.title.label }}</label>
+                                <input type="text" name="title"
+                                       class="form-control input-style"
+                                       id="{{ form_post.title.id_for_label }}"
+                                       value="{% if form_post.title.value %}{{ form_post.title.value }}{% endif %}"
+                                       placeholder="{{ form_post.title.label }}" required>
+                                <div class="invalid-feedback">
+                                    {% if form_post.title.errors %}
+                                        {% for error in form_post.title.errors %}
+                                            {{ error|escape }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <br>
+                                <label for="{{ form_post.description.id_for_label }}"
+                                       class="input__label">{{ form_post.description.label }}</label>
+                                <textarea type="text" name="description" rows="5"
+                                          class="form-control input-style"
+                                          id="{{ form_post.description.id_for_label }}"
+                                          placeholder="text ..."></textarea>
+                                <div class="invalid-feedback">
+                                    {% if form_post.description.errors %}
+                                        {% for error in form_post.description.errors %}
+                                            {{ error|escape }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <div>
+                                        <label for="image" class="btn btn-primary" id="btn" style="width: 100%">Add
+                                            image</label>
+                                    </div>
+                                    <input id="image" style="visibility:hidden;" name="image" accept="image/*"
+                                           type="file">
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-style mt-4" style="width: 100%">Add
+                                    post
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //accordions -->
+{% endblock %}

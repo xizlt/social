@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+    <div class="card card_border p-lg-5 p-3 mb-4">
+        <div class="card-body py-3 p-0">
+            <div class="row">
+                <div class="col-lg-6 pr-lg-4">
+                {% if request.user.is_authenticated %}
+                        <h1>Hi {{ request.user.username }}!</h1>
+                {% else %}
+                        <div class="card card_border py-2 mb-4" style="width: 400px">
+                            <div class="cards__heading">
+                                <h3>Forms login<span></span></h3>
+                            </div>
+                            <div class="card-body">
+                                {% if form.errors %}
+                                    <p>Your username and password didn't match.Please try again.</p>
+                                {% else %}
+                                    <p>Please, use the following form to log-in. If you don't have an account
+                                        <a href="{% url "register" %}">register
+                                            here</a></p>
+                                {% endif %}<br>
+                                <form action="{% url 'login' %}" method="post">
+                                    {% csrf_token %}
+
+                                    <div class="form-group">
+                                        <label for="id-username" class="input__label">Login</label>
+                                        <input type="text" class="form-control input-style" id="id-username"
+                                               name="username" autocapitalize="none" placeholder="Enter login" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id-password" class="input__label">Password</label>
+                                        <input type="password" class="form-control input-style" id="id-password"
+                                               name="password" placeholder="Password" autocomplete="current-password"
+                                               required>
+                                    </div>
+                                    <input type="hidden" name="next" value="{{ next }}"/>
+                                    <div><a href="{% url "password_reset" %}">Forgotten your password?</a></div>
+                                    <button type="submit" class="btn btn-primary btn-style mt-4">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                {% endif %}
+                </div>
+                <div class="col-lg-6 align-self pl-lg-4 mt-lg-0 mt-4">
+                    <h3 class="block__title mb-lg-4">Hi, I`m Ivan Shchankin</h3>
+                    <p class="mb-3">If you like this job then you can to visit my website or write me email. Thank you! </p>
+                    <a href="https://www.devback.online" class="btn btn-primary mr-2" target="_blank" > Visit website</a>
+                    <a href="mailto:all@devback.online" class="btn border-btn"> Send email</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

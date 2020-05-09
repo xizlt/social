@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Feed{% endblock %}
+{% block content %}
+
+    <!-- accordions -->
+    <div class="accordions">
+        <div class="row">
+            <!-- accordion style 1 -->
+
+            <div class="col-lg-3 mb-4">
+                <div class="card card_border">
+                    <div class="card-header chart-grid__header">
+                        Promotion
+                    </div>
+                    <div class="card-body">
+                        <div class="accordion" id="accordionExample">
+                            Do you want to buy that place?
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="card card_border">
+                    <div class="card-header chart-grid__header">
+                        Notifications
+                    </div>
+                </div>
+                {% if actions %}
+                    {% for action in actions %}
+                        {% include "actions/action/detail.html" %}
+                    {% endfor %}
+                    {% include "pagination.html" with page_obj=actions %}
+                {% else %}
+                    {% include 'empty.html' %}
+                {% endif %}
+            </div>
+
+            <div class="col-lg-3 mb-4">
+                {#          <div class="card card_border">#}
+                {#            <div class="card-header chart-grid__header">#}
+                {#              Market#}
+                {#            </div>#}
+                {#            <div class="card-body">#}
+                {#              <div class="accordion" id="accordionExample">#}
+                {##}
+                {##}
+                {#              </div>#}
+                {#            </div>#}
+                {#          </div>#}
+            </div>
+        </div>
+    </div>
+    <!-- //accordions -->
+{% endblock %}
+

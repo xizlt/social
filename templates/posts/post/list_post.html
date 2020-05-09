@@ -1,0 +1,62 @@
+{% load my_filters %}
+
+{% load thumbnail %}
+
+<div class="panel panel-white post card" id="pk-{{ post.id }}">
+    <div class="post-heading">
+        <div class="pull-left image">
+            <img src="{% thumbnail post.user.profile.photo '60x60' %}" class="img-circle avatar"
+                 alt="user profile image">
+        </div>
+        <div class="pull-left meta">
+            <div class="title h5">
+                <a href="{{ post.user.get_absolute_url }}"><b>{{ post.user.username }}</b></a>
+            </div>
+            <h6 class="text-muted time">{{ post.created|timesince }} ago.</h6>
+        </div>
+    </div>
+    <div class="post-description"><h5 class="card-title">{{ post.title }}</h5>
+        {% if post.image %}
+            <img src="{% thumbnail post.image "700x600" %}" alt="{{ post.title }}">
+        {% endif %}
+        <p>
+            {{ post.description }}
+        </p>
+        <div class="stats">
+            <a href="#" class="like btn btn-default stat-item" data-url="{% url 'posts:like' %}"
+               data-id="{{ post.id }}" data-action="{% if request.user in post.users_like.all %}un{% endif %}like">
+                {% if request.user not in post.users_like.all %}
+                    <i class="fa fa-thumbs-o-up icon"></i>
+                {% else %}
+                    <i class="fa fa-thumbs-up icon"></i>
+                {% endif %}
+            <span class="count">
+                {{ post.users_like.count }}
+            </span>
+            </a>
+
+        </div>
+    </div>
+        <div class="post-footer">
+
+            <div class="input-group">
+                <input class="form-control input-style" placeholder="Add a comment" type="text" id="text-{{ post.id }}"
+                       name="text">
+                <a class="btn btn-primary btn-style" href="#"
+                   data-action="{% url "posts:add-comment" %}"
+                   data-post="{{ post.id }}"><i class="fa fa-edit"></i></a>
+            </div>
+
+            <ul class="comments-list">
+            <div id="comment-post-id-{{ post.id }}" class="com">
+                {% for comment in post.comments.all %}
+                    {% place_comment comment %}
+                {% endfor %}
+            </div>
+            {% if post.comments.count >= 3 %}
+             <a href="#" class="show-messages btn btn-primary btn-style mt-4 text-white" style="width: 100%"
+                    data-id="{{ post.id }}">Hide</a>
+            {% endif %}
+            </ul>
+        </div>
+</div><br>

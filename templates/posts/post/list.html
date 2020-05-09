@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+    <!-- accordions -->
+    <div class="accordions">
+      <div class="row">
+        <!-- accordion style 1 -->
+
+          <div class="col-lg-3 mb-4">
+          <div class="card card_border">
+            <div class="card-header chart-grid__header">
+              Promotion
+            </div>
+            <div class="card-body">
+              <div class="accordion" id="accordionExample">
+                    Do you want to buy that place?
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="col-lg-6 mb-4">
+              <div class="card card_border">
+                  <div class="card-header chart-grid__header">
+                      News feed
+                  </div>
+              </div>
+          {% if posts %}
+          <div id="post-list">
+              {% for post in posts %}
+              {% include 'posts/post/list_post.html' %}
+              {% endfor %}
+          </div>
+              {% include "pagination.html" with page_obj=posts %}
+
+           {% else %}
+          {% include 'empty.html' %}
+          {% endif %}
+          </div>
+          <div class="col-lg-3 mb-4">
+        </div>
+      </div>
+    </div>
+    <!-- //accordions -->
+{% endblock %}

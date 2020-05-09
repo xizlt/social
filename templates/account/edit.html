@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Edit your account{% endblock %}
+{% block content %}
+{% load thumbnail %}
+    <style>
+        #btn {
+    font-size: 16px;
+    line-height: 25px;
+    padding: 10px 25px;
+    display: inline-block;
+    font-weight: 400;
+    text-transform: capitalize;
+            width: 250px;
+        }
+    </style>
+            <div class="card card_border py-2 mb-4">
+                <div class="card-body">
+                    <form action="." method="post" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <div class="form-group ">
+                                    <label for="{{ user_form.first_name.id_for_label }}"
+                                           class="input__label">{{ user_form.first_name.label }}</label>
+                                    <input type="text" name="first_name"
+                                           class="form-control input-style
+                                        {% if user_form.first_name.errors %}is-invalid{% else %}is-valid{% endif %}"
+                                           id="{{ user_form.first_name.id_for_label }}"
+                                           value="{% if user_form.first_name.value %}{{ user_form.first_name.value }}{% endif %}"
+                                           placeholder="{{ user_form.first_name.label }}">
+                                    <div class="invalid-feedback">
+                                        {% if user_form.first_name.errors %}
+                                            {% for error in user_form.first_name.errors %}
+                                                {{ error|escape }}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="{{ user_form.last_name.id_for_label }}"
+                                           class="input__label">{{ user_form.last_name.label }}</label>
+                                    <input type="text" name="last_name"
+                                           class="form-control input-style
+                                       {% if user_form.last_name.errors %}is-invalid{% else %}is-valid{% endif %}"
+                                           id="{{ user_form.last_name.id_for_label }}"
+                                           value="{% if user_form.last_name.value %}{{ user_form.last_name.value }}{% endif %}"
+                                           placeholder="{{ user_form.last_name.label }}">
+                                    <div class="invalid-feedback">
+                                        {% if user_form.last_name.errors %}
+                                            {% for error in user_form.last_name.errors %}
+                                                {{ error|escape }}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="{{ user_form.email.id_for_label }}"
+                                           class="input__label">{{ user_form.email.label }}</label>
+                                    <input type="email" name="email"
+                                           class="form-control input-style
+                                        {% if user_form.email.errors %}is-invalid{% else %}is-valid{% endif %}"
+                                           id="{{ user_form.email.id_for_label }}"
+                                           value="{% if user_form.email.value %}{{ user_form.email.value }}{% endif %}"
+                                           placeholder="example@site.com">
+                                    <div class="invalid-feedback">
+                                        {% if user_form.email.errors %}
+                                            {% for error in user_form.email.errors %}
+                                                {{ error|escape }}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="{{ profile_form.date_of_birth.id_for_label }}"
+                                           class="input__label">{{ profile_form.date_of_birth.label }}</label>
+                                    <input type="date" name="date_of_birth"
+                                           class="form-control input-style
+                                       {% if profile_form.date_of_birth.errors %}is-invalid{% else %}is-valid{% endif %}"
+                                           id="{{ profile_form.date_of_birth.id_for_label }}"
+                                           value="{% if profile_form.date_of_birth.value %}{{ profile_form.date_of_birth.value }}{% endif %}"
+                                           placeholder="">
+                                    <div class="invalid-feedback">
+                                        {% if profile_form.date_of_birth.errors %}
+                                            {% for error in profile_form.date_of_birth.errors %}
+                                                {{ error|escape }}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="input__label" for="id_photo">{{ profile_form.photo.label }}</label><br>
+                                <div style="height: 285px">
+                                    <img src="{% thumbnail user.profile.photo '250x250' crop='100%' %}" alt="">
+                                </div>
+                                    <div class="form-group">
+                                        <div >
+                                            <label for="files" class="btn btn-primary" id="btn">Photo</label>
+                                        </div>
+                                        <input id="files" style="visibility:hidden;" name="photo" accept="image/*" type="file">
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn" id="btn">Edit</button>
+                                    </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+{% endblock %}

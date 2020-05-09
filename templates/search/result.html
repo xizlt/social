@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% load thumbnail %}
+{% block content %}
+
+    <!-- accordions -->
+    <div class="accordions">
+        <div class="row">
+            <!-- accordion style 1 -->
+
+            <div class="col-lg-3 mb-4">
+                <div class="card card_border">
+                    <div class="card-header chart-grid__header">
+                        Promotion
+                    </div>
+                    <div class="card-body">
+                        <div class="accordion" id="accordionExample">
+                            Do you want to buy that place?
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-4">
+                <div class="card card_border">
+                    <div class="card-header chart-grid__header">
+                        Search result
+                    </div>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a class="pp btn btn-light" data-name="people">People</a>
+                        <a  class="pp btn btn-light" data-name="posts">Posts</a>
+                    </div>
+                </div>
+
+                {% if not posts and not users %}
+                    <br>
+                    {% include 'empty.html' %}
+                {% else %}
+                    {% if posts %}
+
+                        <div id="posts">
+
+                            {% for post in posts %}
+                                {% include 'posts/post/list_post.html' %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {% include 'empty.html' %}
+                    {% endif %}
+
+                    <div id="people" style="background-color: white; padding: 10px" hidden>
+                        {% if users %}
+                            <div class="row row-cols-1 row-cols-md-2">
+                                {% for user in users %}
+                                    {% include 'account/user/list_user.html' %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {% include 'empty.html' %}
+                        {% endif %}
+                    </div>
+
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 mb-4">
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block domready %}
+    $('.pp').click(function(e){
+    e.preventDefault()
+    var posts = $('#posts')
+    var people = $('#people')
+
+    if ($(this).data('name') == "posts"){
+    people.attr('hidden', 'hidden')
+    posts.removeAttr('hidden', 'hidden')
+    }else{
+    people.removeAttr('hidden', 'hidden')
+    posts.attr('hidden', 'hidden')
+    }
+    })
+
+{#    $('a.follow-button').click(function(e){#}
+{#    e.preventDefault();#}
+{#    var o = $(this)#}
+{#    var u = o.data('id')#}
+{#    var a = o.data('action')#}
+{##}
+{#    $.post('{% url "user_follow" %}',#}
+{#    {#}
+{#    id: u,#}
+{#    action: a#}
+{#    },#}
+{#    function(data){#}
+{#    if (data['status'] == 'ok') {#}
+{#    var previous_action = o.data('action');#}
+{##}
+{#    o.data('action',#}
+{#    previous_action == 'follow' ? 'unfollow' : 'follow');#}
+{#    o.text(#}
+{#    previous_action == 'follow' ? 'Unfollow' : 'Follow');#}
+{##}
+{#    }#}
+{#    }#}
+{#    );#}
+{#    });#}
+{% endblock %}
